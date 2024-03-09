@@ -32,6 +32,7 @@ Welcome to the Music Application! This web application allows users to manage an
 
 - **Home:** [http://127.0.0.1:5001/](http://127.0.0.1:5001/home)
   - Landing page or welcome screen.
+![Music App](/home/sriharsha/django_frac_project/my_music/mussic_app.png)
 
 
 ## Create a virtual environment
