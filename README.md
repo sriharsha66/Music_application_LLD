@@ -23,10 +23,10 @@ Welcome to the Music Application! This web application allows users to manage an
    ```bash
    git clone https://github.com/sriharsha66/music_application_LLD.git
 
-cd music_application_LLD
+```cd music_application_LLD
 pip install -r requirements.txt
 python manage.py migrate
-python manage.py runserver 5001 
+python manage.py runserver 5001 ```
 
 ## Endpoints
 
