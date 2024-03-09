@@ -1,0 +1,41 @@
+<!-- landing.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Landing Page</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('https://i.pinimg.com/originals/a6/df/41/a6df41654ee6dee057dd74f7245baa18.gif');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;  /* Set text color to be visible on the background */
+            font-family: 'Arial', sans-serif;  /* Choose an appropriate font */
+        }
+
+        h1 {
+            font-size: 3em;
+        }
+
+        /* Add additional styles as needed */
+
+    </style>
+</head>
+
+<body>
+    <div>
+        <h1>Welcome to the Music World 🌎🚀</h1>
+        <a href="{% url 'login' %}"><h1>Click here to login</h1></a>
+        <!-- Add other content here -->
+    </div>
+</body>
+
+</html>

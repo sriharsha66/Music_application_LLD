@@ -1,0 +1,48 @@
+<!-- dashboard.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Welcome, {{ request.user.username }}!</h2>
+  <div class="dashboard-container">
+    <h2>Music Dashboard</h2>
+    {% if songs %}
+      <table class="song-table">
+        <thead>
+          <tr>
+            <th>S.No</th>
+            <th>Song Title</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for song in songs %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ song.title }}</td>
+              <td>
+                <a href="{% url 'audio_view' song.id %}" target="_blank">Play Music</a>
+                &nbsp;&nbsp;
+                <a href="{% url 'delete_song' song.id %}" class="delete-link">Delete</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>No songs uploaded yet.</p>
+    {% endif %}
+
+    <!-- Logout form -->
+    <form action="{% url 'logout' %}" method="post">
+      {% csrf_token %}
+      <br>
+      <!-- <button type="submit">Logout</button> -->
+    </form>
+    <br>
+    <a href="{% url 'upload_song' %}" class="upload-link">Upload a Song</a>
+  </div>
+{% endblock %}
+
+
+<style>
+</style>

@@ -1,0 +1,413 @@
+<!-- templates/base.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Web Application</title>
+<!-- Add this to your existing CSS file or create a new one -->
+
+<style>
+body {
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+  /* background-color: #9da4b9; */
+  text-align: center;
+  background-image: url('https://i.pinimg.com/originals/62/26/43/6226435516042edfe1a4514a44e2023a.gif');
+  background-size: cover;
+  width: 100%;
+  height: 100vh;
+}
+nav {
+  background-color: #333;
+  color: white;
+  padding: 10px;
+  text-align: left;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul li {
+  display: inline-block;
+  margin-left: 20px;
+}
+
+ul li a {
+  text-decoration: none;
+  color: white;
+}
+
+.button {
+  background-color: #3498db;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #2980b9;
+}
+
+.back-button {
+  background-color: #e74c3c;
+}
+
+.back-button:hover {
+  background-color: #c0392b;
+}
+
+.content-container {
+  width: 80%;
+  margin: 50px auto;
+}
+
+/* Add this for the cursor color change */
+.button:hover, .back-button:hover {
+  cursor: pointer;
+  filter: brightness(1.2); /* Adjust the brightness as needed */
+}
+
+/* Add these styles to your existing CSS file or create a new one */
+
+.registration-form {
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.registration-form h2 {
+  color: #333;
+}
+
+.registration-form form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.registration-form input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+
+.registration-form button {
+  width: 100%;
+  padding: 10px;
+  background-color: #637d8f;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.registration-form button:hover {
+  background-color: #6d7f8b;
+}
+/* Add these styles to your existing CSS file or create a new one */
+
+.login-form {
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.login-form h2 {
+  color: #333;
+}
+
+.login-form form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+
+.login-form button {
+  width: 100%;
+  padding: 10px;
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.login-form button:hover {
+  background-color: #2980b9;
+}
+/* Add these styles to your existing CSS file or create a new one */
+
+.dashboard-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.dashboard-container h2 {
+  color: #333;
+}
+
+.dashboard-container ul {
+  list-style: none;
+  padding: 0;
+}
+
+.dashboard-container li {
+  margin: 10px 0;
+}
+
+.dashboard-container a {
+  text-decoration: none;
+  color: #3498db;
+  font-weight: bold;
+}
+
+.dashboard-container a:hover {
+  text-decoration: underline;
+}
+
+.dashboard-container button {
+  padding: 10px;
+  background-color: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.dashboard-container button:hover {
+  background-color: #c0392b;
+}
+
+.dashboard-container a.upload-link {
+  display: block;
+  margin-top: 20px;
+  text-decoration: none;
+  color: #fff;
+  background-color: #3498db;
+  padding: 10px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.dashboard-container a.upload-link:hover {
+  background-color: #2980b9;
+}
+/* Add these styles to your existing CSS file or create a new one */
+
+.upload-container {
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.upload-container h2 {
+  color: #333;
+}
+
+.upload-container form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.upload-container input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+
+.upload-container button {
+  width: 100%;
+  padding: 10px;
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.upload-container button:hover {
+  background-color: #2980b9;
+}
+
+.upload-container a {
+  text-decoration: none;
+  color: #3498db;
+  font-weight: bold;
+  display: block;
+  margin-top: 20px;
+}
+
+.upload-container a:hover {
+  text-decoration: underline;
+}
+
+/* Add this to your existing CSS file or create a new one */
+
+.confirmation-container {
+  max-width: 400px;
+  margin: 50px auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+h2 {
+  color: #3967f3;
+}
+
+p {
+  color: #8d1212;
+}
+
+form {
+  margin-top: 20px;
+}
+.register-link {
+  color: #1ae7c4;  /* Set your desired color here */
+  /* Add any additional styles as needed */
+}
+.delete-button {
+  background-color: #e74c3c;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  background-color: #c0392b;
+}
+
+.cancel-link {
+  color: #3498db;
+  text-decoration: none;
+  margin-left: 10px;
+}
+
+.cancel-link:hover {
+  color: #2980b9;
+}
+/* Add this to your existing CSS file or create a new one */
+
+.row-color1 {
+  background-color: #f9f9f9;
+}
+
+.row-color2 {
+  background-color: #e6e6e6;
+}
+/* Add this to your existing CSS file or create a new one */
+
+.song-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.song-table th, .song-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.song-table th {
+  background-color: #f2f2f2;
+}
+
+.delete-link {
+  color: #e74c3c; /* Red color for delete link, you can change this */
+}
+/* Add this to your existing CSS file or create a new one */
+
+.song-table th, .song-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.song-table th {
+  background-color: #f2f2f2;
+}
+
+.song-table td:first-child {
+  text-align: left; /* Center-align the count column */
+}
+
+.delete-link {
+  color: #e74c3c; /* Red color for delete link, you can change this */
+}
+
+
+
+</style>
+  
+</head>
+<body>
+  <nav>
+    <ul>
+      <!-- <li><a href="{% url 'dashboard' %}">Dashboard</a></li> -->
+      <!-- <li><a href="{% url 'upload_song' %}">Upload a Song</a></li> -->
+      <li><a href="{% url 'home' %}">Home</a></li>
+      <!-- <li><a href="{% url 'logout' %}">Logout</a></li> -->
+      <!-- <li><a href="{% url 'register' %}" class="register-button">Register</a></li>  -->
+      {% if user.is_authenticated %}
+      <li><a href="{% url 'logout' %}">Logout</a></li>
+    {% endif %}
+      {% if request.path != '/login/' %}
+      <li><a href="javascript:history.back()" class="button back-button">Back</a></li>
+    {% endif %}
+    </ul>
+  </nav>
+  <div>
+    {% block content %}
+    {% endblock %}
+  </div>
+</body>
+</html>

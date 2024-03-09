@@ -1,0 +1,38 @@
+body {
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f0f0f0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+nav {
+  margin-bottom: 20px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+}
+
+li {
+  margin-right: 20px;
+}
+
+.register-button {
+  /* Add specific styling for the register button */
+}
+
+.back-button {
+  /* Add specific styling for the back button */
+}
+
+.content-container {
+  /* Add styling for the content container */
+}
