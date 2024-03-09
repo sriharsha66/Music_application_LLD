@@ -34,11 +34,11 @@ Welcome to the Music Application! This web application allows users to manage an
   - Landing page or welcome screen.
 
 
-# Create a virtual environment
+## Create a virtual environment
 python -m venv venv
 
-# Activate the virtual environment (on Windows)
+## Activate the virtual environment (on Windows)
 venv\Scripts\activate
 
-# Activate the virtual environment (on macOS or Linux)
+## Activate the virtual environment (on macOS or Linux)
 source venv/bin/activate
