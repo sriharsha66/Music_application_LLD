@@ -32,3 +32,13 @@ python manage.py runserver 5001
 
 - **Home:** [http://127.0.0.1:5001/](http://127.0.0.1:5001/home)
   - Landing page or welcome screen.
+
+
+# Create a virtual environment
+python -m venv venv
+
+# Activate the virtual environment (on Windows)
+venv\Scripts\activate
+
+# Activate the virtual environment (on macOS or Linux)
+source venv/bin/activate
