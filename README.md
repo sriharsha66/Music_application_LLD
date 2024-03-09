@@ -30,7 +30,7 @@ Welcome to the Music Application! This web application allows users to manage an
 
 ## Endpoints
 
-- **Home:** [http://127.0.0.1:5001/](http://127.0.0.1:5001/home)
+- **Home:** [http://127.0.0.1:5001/home](http://127.0.0.1:5001/home)
   - Landing page or welcome screen.
 ![Music App](mussic_app.png)
 
