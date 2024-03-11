@@ -5,7 +5,48 @@
   <h2>Welcome, {{ request.user.username }}!</h2>
   <div class="dashboard-container">
     <h2>Music Dashboard</h2>
+
+    <!-- Friend Search Form -->
+    <form id="friend-search-form">
+      <label for="search_username">Search for Friends:</label>
+      <input type="text" name="search_username" id="search_username" placeholder="Enter username">
+      <button type="button" onclick="searchFriends()">Search</button>
+    </form>
+    
+    <!-- Display Search Results -->
+    <div id="search-results"></div>
+
     {% if songs %}
+        <!-- Display Friend Requests -->
+        <h3>Friend Requests</h3>
+        {% for friend_request in friend_requests %}
+            <p>{{ friend_request.from_user.username }} wants to be your friend!</p>
+            <form method="post" action="{% url 'accept_friend_request' friend_request.id %}">
+                {% csrf_token %}
+                <button type="submit">Accept</button>
+            </form>
+        {% endfor %}
+    
+        <!-- Display Playlists -->
+        <h3>Playlists</h3>
+        {% for playlist in playlists %}
+            <h4>{{ playlist.name }}</h4>
+            <!-- Display playlist songs here -->
+        {% endfor %}
+    
+        <!-- Display Friends -->
+        <h3>Your Friends</h3>
+        {% for friend in request.user.userprofile.friends.all %}
+            <p>{{ friend.user.username }}</p>
+            <form method="post" action="{% url 'send_playlist_request' friend.id %}">
+                {% csrf_token %}
+                <button type="submit">Send Playlist Request</button>
+            </form>
+        {% endfor %}
+
+        <h3>Your Friends</h3>
+        <div id="friends-list"></div>
+      
       <table class="song-table">
         <thead>
           <tr>
@@ -41,8 +82,160 @@
     <br>
     <a href="{% url 'upload_song' %}" class="upload-link">Upload a Song</a>
   </div>
-{% endblock %}
 
+  <script>
+    function searchFriends() {
+        var searchUsername = document.getElementById('search_username').value;
+
+        // Check if a name is entered
+        if (searchUsername.trim() === '') {
+            alert('Please enter a username.');
+            return;
+        }
+
+        // Make an AJAX request to retrieve search results
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    // Update the content with the search results
+                    var results = JSON.parse(xhr.responseText);
+                    displaySearchResults(results.results);
+                } else {
+                    console.error('Error fetching search results');
+                }
+            }
+        };
+
+        xhr.open('GET', '{% url 'search_friends' %}?search_username=' + searchUsername, true);
+        xhr.send();
+    }
+
+    function showFriendRequestAcceptedAlert() {
+        alert('You are now friends!');
+    }
+
+//     function displaySearchResults(results) {
+//         var resultsContainer = document.getElementById('search-results');
+//         resultsContainer.innerHTML = '';
+
+//         if (results.length === 0) {
+//             resultsContainer.innerHTML = '<p>No data found.</p>';
+//             return;
+//         }
+
+//         for (var i = 0; i < results.length; i++) {
+//             var result = results[i];
+
+//             var resultElement = document.createElement('div');
+//             resultElement.innerHTML = '<p>' + result.username + '</p>' +
+//                 '<form method="post" action="{% url 'send_friend_request' %}">' +
+//                 '{% csrf_token %}' +
+//                 '<input type="hidden" name="to_user_id" value="' + result.id + '">' +
+//                 '<button type="submit">Send Friend Request</button>' +
+//                 '</form>';
+
+//             resultsContainer.appendChild(resultElement);
+//         }
+//     }
+
+//     function refreshFriendsList() {
+//     var xhr = new XMLHttpRequest();
+//     xhr.onreadystatechange = function () {
+//         if (xhr.readyState === XMLHttpRequest.DONE) {
+//             if (xhr.status === 200) {
+//                 // Update the content with the updated Friends list
+//                 var friendsListContainer = document.getElementById('friends-list');
+//                 friendsListContainer.innerHTML = '';
+
+//                 var friendsData = JSON.parse(xhr.responseText).friends;
+//                 for (var i = 0; i < friendsData.length; i++) {
+//                     var friend = friendsData[i];
+//                     var friendElement = document.createElement('div');
+//                     friendElement.innerHTML = '<p>' + friend.username + '</p>';
+//                     friendsListContainer.appendChild(friendElement);
+//                 }
+//             } else {
+//                 console.error('Error fetching updated Friends list');
+//             }
+//         }
+//     };
+
+//     xhr.open('GET', '{% url 'get_friends' %}', true);
+//     xhr.send();
+// }
+function displaySearchResults(results) {
+  var resultsContainer = document.getElementById('search-results');
+  resultsContainer.innerHTML = '';
+
+  for (var i = 0; i < results.length; i++) {
+    var result = results[i];
+
+    var resultElement = document.createElement('div');
+    resultElement.innerHTML = '<p>' + result.username + '</p>' +
+      '<form method="post" action="{% url 'send_friend_request' %}">' +
+      '{% csrf_token %}' +
+      '<input type="hidden" name="to_user_id" value="' + result.id + '">' +
+      '<button type="submit">Send Friend Request</button>' +
+      '</form>';
+
+    resultsContainer.appendChild(resultElement);
+  }
+
+  // After displaying search results, refresh friends list
+  refreshFriendsList();
+}
+function refreshFriendsList() {
+  // Make an AJAX request to retrieve the updated Friends list
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        // Parse the JSON response
+        var response = JSON.parse(xhr.responseText);
+
+        // Update the content with the updated Friends list
+        var friendsListContainer = document.getElementById('friends-list');
+        friendsListContainer.innerHTML = '';
+
+        if (response.friends_list.length > 0) {
+          for (var i = 0; i < response.friends_list.length; i++) {
+            var friend = response.friends_list[i];
+            friendsListContainer.innerHTML += '<p>' + friend.username + '</p>';
+          }
+        } else {
+          friendsListContainer.innerHTML = '<p>No friends yet.</p>';
+        }
+      } else {
+        console.error('Error fetching updated Friends list');
+      }
+    }
+  };
+
+  xhr.open('GET', '{% url 'get_friends' %}', true);
+  xhr.send();
+}
+// function refreshFriendsList() {
+//   // Make an AJAX request to retrieve the updated Friends list
+//   var xhr = new XMLHttpRequest();
+//   xhr.onreadystatechange = function () {
+//     if (xhr.readyState === XMLHttpRequest.DONE) {
+//       if (xhr.status === 200) {
+//         // Update the content with the updated Friends list
+//         var friendsListContainer = document.getElementById('friends-list');
+//         friendsListContainer.innerHTML = xhr.responseText;
+//       } else {
+//         console.error('Error fetching updated Friends list');
+//       }
+//     }
+//   };
+
+//   xhr.open('GET', '{% url 'get_friends' %}', true);
+//   xhr.send();
+// }
+</script>
+
+{% endblock %}
 
 <style>
 </style>

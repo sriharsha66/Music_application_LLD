@@ -1,0 +1,9 @@
+<!-- search_users.html -->
+<h2>Search Users</h2>
+<form method="get">
+    <input type="text" name="q" placeholder="Search...">
+    <button type="submit">Search</button>
+</form>
+{% for user in users %}
+    <p>{{ user.username }} <a href="{% url 'send_friend_request' user.id %}">Send Friend Request</a></p>
+{% endfor %}
