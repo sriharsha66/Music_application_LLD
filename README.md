@@ -35,6 +35,11 @@ Welcome to the Music Application! This web application allows users to manage an
 ![Music App](mussic_app.png)
 
 
+## FriendRequest 
+-  FriendRequest Btw two users.
+![Music App](friend_req.png)
+
+
 ## Create a virtual environment
 python -m venv venv
 
