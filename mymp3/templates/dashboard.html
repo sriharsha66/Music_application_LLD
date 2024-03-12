@@ -115,106 +115,109 @@
         alert('You are now friends!');
     }
 
-//     function displaySearchResults(results) {
-//         var resultsContainer = document.getElementById('search-results');
-//         resultsContainer.innerHTML = '';
+    function displaySearchResults(results) {
+        var resultsContainer = document.getElementById('search-results');
+        resultsContainer.innerHTML = '';
 
+        if (results.length === 0) {
+            resultsContainer.innerHTML = '<p>No data found.</p>';
+            return;
+        }
+
+        for (var i = 0; i < results.length; i++) {
+            var result = results[i];
+
+            var resultElement = document.createElement('div');
+            resultElement.innerHTML = '<p>' + result.username + '</p>' +
+                '<form method="post" action="{% url 'send_friend_request' %}">' +
+                '{% csrf_token %}' +
+                '<input type="hidden" name="to_user_id" value="' + result.id + '">' +
+                '<button type="submit">Send Friend Request</button>' +
+                '</form>';
+
+            resultsContainer.appendChild(resultElement);
+        }
+    }
+
+    function refreshFriendsList() {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                // Update the content with the updated Friends list
+                var friendsListContainer = document.getElementById('friends-list');
+                friendsListContainer.innerHTML = '';
+
+                var friendsData = JSON.parse(xhr.responseText).friends;
+                for (var i = 0; i < friendsData.length; i++) {
+                    var friend = friendsData[i];
+                    var friendElement = document.createElement('div');
+                    friendElement.innerHTML = '<p>' + friend.username + '</p>';
+                    friendsListContainer.appendChild(friendElement);
+                }
+            } else {
+                console.error('Error fetching updated Friends list');
+            }
+        }
+    };
+
+    xhr.open('GET', '{% url 'get_friends' %}', true);
+    xhr.send();
+}
+// function displaySearchResults(results) {
+//   var resultsContainer = document.getElementById('search-results');
+//   resultsContainer.innerHTML = '';
+
+//   for (var i = 0; i < results.length; i++) {
+//     var result = results[i];
 //         if (results.length === 0) {
 //             resultsContainer.innerHTML = '<p>No data found.</p>';
 //             return;
 //         }
+//     var resultElement = document.createElement('div');
+//     resultElement.innerHTML = '<p>' + result.username + '</p>' +
+//       '<form method="post" action="{% url 'send_friend_request' %}">' +
+//       '{% csrf_token %}' +
+//       '<input type="hidden" name="to_user_id" value="' + result.id + '">' +
+//       '<button type="submit">Send Friend Request</button>' +
+//       '</form>';
 
-//         for (var i = 0; i < results.length; i++) {
-//             var result = results[i];
+//     resultsContainer.appendChild(resultElement);
+//   }
 
-//             var resultElement = document.createElement('div');
-//             resultElement.innerHTML = '<p>' + result.username + '</p>' +
-//                 '<form method="post" action="{% url 'send_friend_request' %}">' +
-//                 '{% csrf_token %}' +
-//                 '<input type="hidden" name="to_user_id" value="' + result.id + '">' +
-//                 '<button type="submit">Send Friend Request</button>' +
-//                 '</form>';
-
-//             resultsContainer.appendChild(resultElement);
-//         }
-//     }
-
-//     function refreshFriendsList() {
-//     var xhr = new XMLHttpRequest();
-//     xhr.onreadystatechange = function () {
-//         if (xhr.readyState === XMLHttpRequest.DONE) {
-//             if (xhr.status === 200) {
-//                 // Update the content with the updated Friends list
-//                 var friendsListContainer = document.getElementById('friends-list');
-//                 friendsListContainer.innerHTML = '';
-
-//                 var friendsData = JSON.parse(xhr.responseText).friends;
-//                 for (var i = 0; i < friendsData.length; i++) {
-//                     var friend = friendsData[i];
-//                     var friendElement = document.createElement('div');
-//                     friendElement.innerHTML = '<p>' + friend.username + '</p>';
-//                     friendsListContainer.appendChild(friendElement);
-//                 }
-//             } else {
-//                 console.error('Error fetching updated Friends list');
-//             }
-//         }
-//     };
-
-//     xhr.open('GET', '{% url 'get_friends' %}', true);
-//     xhr.send();
+//   // After displaying search results, refresh friends list
+//   refreshFriendsList();
 // }
-function displaySearchResults(results) {
-  var resultsContainer = document.getElementById('search-results');
-  resultsContainer.innerHTML = '';
+// function refreshFriendsList() {
+//   // Make an AJAX request to retrieve the updated Friends list
+//   var xhr = new XMLHttpRequest();
+//   xhr.onreadystatechange = function () {
+//     if (xhr.readyState === XMLHttpRequest.DONE) {
+//       if (xhr.status === 200) {
+//         // Parse the JSON response
+//         var response = JSON.parse(xhr.responseText);
 
-  for (var i = 0; i < results.length; i++) {
-    var result = results[i];
+//         // Update the content with the updated Friends list
+//         var friendsListContainer = document.getElementById('friends-list');
+//         friendsListContainer.innerHTML = '';
 
-    var resultElement = document.createElement('div');
-    resultElement.innerHTML = '<p>' + result.username + '</p>' +
-      '<form method="post" action="{% url 'send_friend_request' %}">' +
-      '{% csrf_token %}' +
-      '<input type="hidden" name="to_user_id" value="' + result.id + '">' +
-      '<button type="submit">Send Friend Request</button>' +
-      '</form>';
+//         if (response.friends_list.length > 0) {
+//           for (var i = 0; i < response.friends_list.length; i++) {
+//             var friend = response.friends_list[i];
+//             friendsListContainer.innerHTML += '<p>' + friend.username + '</p>';
+//           }
+//         } else {
+//           friendsListContainer.innerHTML = '<p>No friends yet.</p>';
+//         }
+//       } else {
+//         console.error('Error fetching updated Friends list');
+//       }
+//     }
+//   };
 
-    resultsContainer.appendChild(resultElement);
-  }
-
-  // After displaying search results, refresh friends list
-  refreshFriendsList();
-}
-function refreshFriendsList() {
-  // Make an AJAX request to retrieve the updated Friends list
-  var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === XMLHttpRequest.DONE) {
-      if (xhr.status === 200) {
-        // Parse the JSON response
-        var response = JSON.parse(xhr.responseText);
-
-        // Update the content with the updated Friends list
-        var friendsListContainer = document.getElementById('friends-list');
-        friendsListContainer.innerHTML = '';
-
-        if (response.friends_list.length > 0) {
-          for (var i = 0; i < response.friends_list.length; i++) {
-            var friend = response.friends_list[i];
-            friendsListContainer.innerHTML += '<p>' + friend.username + '</p>';
-          }
-        } else {
-          friendsListContainer.innerHTML = '<p>No friends yet.</p>';
-        }
-      } else {
-        console.error('Error fetching updated Friends list');
-      }
-    }
-  };
-
-  xhr.open('GET', '{% url 'get_friends' %}', true);
-  xhr.send();
-}
+//   xhr.open('GET', '{% url 'refresh_friends_list' %}', true);
+//   xhr.send();
+// }
 // function refreshFriendsList() {
 //   // Make an AJAX request to retrieve the updated Friends list
 //   var xhr = new XMLHttpRequest();
